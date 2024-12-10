@@ -1,60 +1,32 @@
 {
-  "input": [
-    {
-      "type": "maxmindGeoLite2CountryCSV",
-      "action": "add",
-      "args": {
-        "country": "./geolite2/GeoLite2-Country-Locations-en.csv",
-        "ipv4": "./geolite2/GeoLite2-Country-Blocks-IPv4.csv",
-        "ipv6": "./geolite2/GeoLite2-Country-Blocks-IPv6.csv"
-      }
-    },
-    {
-      "type": "private",
-      "action": "add"
-    },
-    {
-      "type": "test",
-      "action": "add"
-    }
-  ],
-  "output": [
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "geoip.dat"
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "outputName": "geoip-only-cn-private.dat",
-        "wantedList": ["cn", "private"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "outputDir": "./output",
-        "oneFilePerList": true,
-        "wantedList": ["cn", "private", "test"]
-      }
-    },
-    {
-      "type": "v2rayGeoIPDat",
-      "action": "output",
-      "args": {
-        "oneFilePerList": true
-      }
-    },
-    {
-      "type": "text",
-      "action": "output"
-    }
-  ]
+	"input": [{
+		"type": "maxmindGeoLite2CountryCSV",
+		"action": "add",
+		"args": {
+			"country": "./db-ip/country.map.csv",
+			"ipv4": "./db-ip/country.ipv4.csv",
+			"ipv6": "./db-ip/country.ipv6.csv"
+		}
+	},
+	{
+		"type": "private",
+		"action": "add"
+	}],
+	"output": [{
+		"type": "v2rayGeoIPDat",
+		"action": "output",
+		"args": {
+			"outputDir": "./output",
+			"outputName": "geoip.dat"
+		}
+	},
+	{
+		"type": "v2rayGeoIPDat",
+		"action": "output",
+		"args": {
+			"outputDir": "./output",
+			"outputName": "geoip-lean.dat",
+			"wantedList": ["ir", "ru", "cn", "tm", "by", "eg", "private"]
+		}
+	}]
 }

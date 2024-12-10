@@ -1,93 +1,25 @@
-# GeoIP for V2Ray
+# GeoIP for EEPs
 
-This project releases GeoIP files automatically every Thursday for routing purpose in Project V. It also provides a command line interface(CLI) tool for users to customize their own GeoIP files.
+This project is a fork of [v2fly/geoip](https://github.com/team-cloudchaser/geoip), which releases GeoIP files automatically every Thursday for routing in supported EEPs.
 
-## Download links
+## Differences
 
-For all GeoIP files released by this project, see the [release branch](https://github.com/v2fly/geoip/tree/release). Below are download URLs for some GeoIP files:
+- Databases are sourced from [DB-IP.com](https://db-ip.com/db/lite.php) instead of MaxMind.
+- Carrier-grade NAT (CNAT) ranges are excluded from `private`, because they should never be considered as such.
+- A lite version of the databases are also included covering repressive regimes (Iran, Russia, China, Turkimenistan, Belarus, Egypt).
+  - As such, `geoip-only-cn-private.dat` is no longer included.
 
-- **geoip.dat**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/geoip.dat](https://github.com/v2fly/geoip/releases/latest/download/geoip.dat)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip.dat](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip.dat)
-- **geoip.dat.sha256sum**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/geoip.dat.sha256sum](https://github.com/v2fly/geoip/releases/latest/download/geoip.dat.sha256sum)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip.dat.sha256sum](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip.dat.sha256sum)
-- **geoip-only-cn-private.dat**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat](https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip-only-cn-private.dat](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip-only-cn-private.dat)
-- **geoip-only-cn-private.dat.sha256sum**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat.sha256sum](https://github.com/v2fly/geoip/releases/latest/download/geoip-only-cn-private.dat.sha256sum)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip-only-cn-private.dat.sha256sum](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/geoip-only-cn-private.dat.sha256sum)
-- **cn.dat**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/cn.dat](https://github.com/v2fly/geoip/releases/latest/download/cn.dat)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/cn.dat](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/cn.dat)
-- **cn.dat.sha256sum**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/cn.dat.sha256sum](https://github.com/v2fly/geoip/releases/latest/download/cn.dat.sha256sum)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/cn.dat.sha256sum](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/cn.dat.sha256sum)
-- **private.dat**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/private.dat](https://github.com/v2fly/geoip/releases/latest/download/private.dat)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/private.dat](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/private.dat)
-- **private.dat.sha256sum**：
-  - [https://github.com/v2fly/geoip/releases/latest/download/private.dat.sha256sum](https://github.com/v2fly/geoip/releases/latest/download/private.dat.sha256sum)
-  - [https://cdn.jsdelivr.net/gh/v2fly/geoip@release/private.dat.sha256sum](https://cdn.jsdelivr.net/gh/v2fly/geoip@release/private.dat.sha256sum)
+## Release files
+- `geoip.dat`: IP to country database, with private ranges available.
+- `asnip.dat`: IP to ASN database with private ranges.
+- `geoip-lean.dat`: IP to country database only including countries of interest, with private ranges available.
+- `asnip-lean.dat`: IP to ASN database only including countries of interest, with private ranges available.
 
-## GeoIP usage example in V2Ray
+> The sections below are from the forked project.
 
-```json
-"routing": {
-  "rules": [
-    {
-      "type": "field",
-      "outboundTag": "Direct",
-      "ip": [
-        "223.5.5.5/32",
-        "119.29.29.29/32",
-        "180.76.76.76/32",
-        "114.114.114.114/32",
-        "geoip:cn",
-        "geoip:private",
-        "ext:cn.dat:cn",
-        "ext:private.dat:private",
-        "ext:geoip-only-cn-private.dat:cn",
-        "ext:geoip-only-cn-private.dat:private"
-      ]
-    },
-    {
-      "type": "field",
-      "outboundTag": "Proxy-1",
-      "ip": [
-        "1.1.1.1/32",
-        "1.0.0.1/32",
-        "8.8.8.8/32",
-        "8.8.4.4/32"
-      ]
-    },
-    {
-      "type": "field",
-      "outboundTag": "Proxy-2",
-      "ip": [
-        "geoip:us",
-        "geoip:ca"
-      ]
-    },
-    {
-      "type": "field",
-      "outboundTag": "Proxy-3",
-      "ip": [
-        "geoip:hk",
-        "geoip:mo",
-        "geoip:tw",
-        "geoip:jp",
-        "geoip:sg"
-      ]
-    }
-  ]
-}
-```
+## Customizing GeoIP files
 
-## Customize GeoIP files
-
-### Concept explanation
+### Concepts
 
 These two concepts are notable: `input` and `output`. The `input` is the data source and its input format, whereas the `output` is the destination of the converted data and its output format. What the CLI does is to aggregate all input format data, then convert them to output format and write them to GeoIP files by using the options in the config file.
 

@@ -1,0 +1,32 @@
+{
+	"input": [{
+		"type": "maxmindGeoLite2CountryCSV",
+		"action": "add",
+		"args": {
+			"country": "./db-ip/asn.map.csv",
+			"ipv4": "./db-ip/asn.ipv4.csv",
+			"ipv6": "./db-ip/asn.ipv6.csv"
+		}
+	},
+	{
+		"type": "private",
+		"action": "add"
+	}],
+	"output": [{
+		"type": "v2rayGeoIPDat",
+		"action": "output",
+		"args": {
+			"outputDir": "./output",
+			"outputName": "asnip.dat"
+		}
+	},
+	{
+		"type": "v2rayGeoIPDat",
+		"action": "output",
+		"args": {
+			"outputDir": "./output",
+			"outputName": "asnip-lean.dat",
+			"wantedList": ["private"]
+		}
+	}]
+}
